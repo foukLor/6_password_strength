@@ -26,7 +26,12 @@ def contains_date_phones_nubmers(password):
         , password) is not None:
         return True
     return False
-
+def check_dict(password, pass_dict):
+    POINT_FOR_PASSWORD = 2
+    if password in pass_dict:
+            sys.exit("Use another password")
+    else:
+        return POINT_FOR_PASSWORD
 def get_password_strength(password, path_to_dictionary = None):
     result_points = 0
     points = {
@@ -44,14 +49,10 @@ def get_password_strength(password, path_to_dictionary = None):
         return 0
     if path_to_dictionary is not None:
         password_dict = load_dictionary(path_to_dictionary)
-        if password in password_dict:
-            print("Use another password")
-            return 0
-        else:
-            result_points += points["not_in_dict"]
+        result_points += check_dict(password, password_dict)
     if password != password.lower():
         result_points +=points["both_case"]
-    if (len(password) >=8) & (len(password) < 12) :
+    if 12 > len(password) >= 8 :
         result_points += points["length_min"]
     if len(password) >= 12:
         result_points += points["length_enough"]
